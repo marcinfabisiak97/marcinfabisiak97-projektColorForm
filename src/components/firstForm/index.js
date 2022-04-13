@@ -14,7 +14,9 @@ const Firstform = () => {
     const [formErrors, setFormErrors] = useState({});
     const [opt, setOpt] = useState('list')
     const [ColorList, setColorList] = useState(colorList)
-    const list = ColorList.sort((a, b) => {
+    // input field states
+    const [title, setTitle] = useState('');
+    ColorList.sort((a, b) => {
         if (b.red === a.red) {
             if (b.green === a.green) {
                 return b.blue - a.blue
@@ -22,10 +24,6 @@ const Firstform = () => {
         }
         return b.red - a.red
     })
-    const red50 = list.filter((el) => el.red > 127)
-    const green50 = list.filter((el) => el.green > 127)
-    const blue50 = list.filter((el) => el.blue > 127)
-
     //input change handler
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -58,14 +56,11 @@ const Firstform = () => {
     };
     useEffect(() => {
         setColorList([...ColorList, ...getDatafromLS()])
-
-
     }, [])
     //form validation handler
     const validate = (values) => {
         let errors = {};
         const regex = /^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$|^(rgb)?\(?([01]?\d\d?|2[0-4]\d|25[0-5])(\W+)([01]?\d\d?|2[0-4]\d|25[0-5])\W+(([01]?\d\d?|2[0-4]\d|25[0-5])\)?)$/i;
-
         if (!values.text) {
             errors.text = "Cannot be blank";
         } else if (!regex.test(values.text)) {
@@ -74,34 +69,22 @@ const Firstform = () => {
             return true
         } setFormErrors(errors);
         return false
-
     };
 
-    const [colors, setColors] = useState(getDatafromLS());
-    // input field states
-    const [title, setTitle] = useState('');
     // delete color from LS
-    const deleteBook = (id) => {
-        const filteredBooks = ColorList.filter((element, index) => {
+    const deleteColor = (id) => {
+        const filteredColors = ColorList.filter((element, index) => {
             return element.id !== id
         })
-        const newUserColorList = filteredBooks.filter((color) => color.isRemovable)
-        setColorList(filteredBooks);
+        const newUserColorList = filteredColors.filter((color) => color.isRemovable)
+        setColorList(filteredColors);
         localStorage.setItem('colors', JSON.stringify(newUserColorList));
-
     }
-
-    // saving data to local storage
-    // useEffect(() => {
-    //    localStorage.setItem('colors', JSON.stringify(colors));
-    // }, [colors])
-
     console.log(colorList)
     useEffect(() => {
-
         const kolor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color')
         document.documentElement.style.setProperty('--accent-color', kolor)
-        var elem = document.querySelectorAll('.rectangel17');
+        var elem = document.querySelectorAll('.rectangle17');
         for (let i = 0; i < elem.length; i++) {
             elem[i].style.backgroundColor = "red";
         }
@@ -109,7 +92,6 @@ const Firstform = () => {
     const putColor = (kolor) => {
         document.documentElement.style.setProperty('--accent-color', kolor)
     }
-
     return (
         <div>
             <div >
@@ -130,18 +112,14 @@ const Firstform = () => {
                 </form>
             </div>
             <div>
-                <p>hex</p>
-
                 <label >color</label>
-                <select value={opt} onChange={(e) =>
-                    setOpt(e.target.value)
-                }>
+                <select value={opt} onChange={(e) => setOpt(e.target.value)}>
                     <option value='list'> all</option>
                     <option value='red50'> red > 127</option>
                     <option value='green50'> green > 127</option>
                     <option value='blue50'> blue > 127</option>
                 </select>
-                długość: {ColorList.length}
+                List length: {ColorList.length}
                 {
                     ColorList.filter((color) => {
                         if (opt === 'list') return true
@@ -156,14 +134,11 @@ const Firstform = () => {
                         }
                     }).map((color, index) => {
                         return (
-                            <div data-color='red' className="rectangel" key={index}>
-                                <div className={color.class}></div>
+                            <div key={index}>
+                                <div data-color={color.title} className={color.class}></div>
                                 HEX:{color.nameHex}, RGB({color.red}, {color.green}, {color.blue})
-                                {color.isRemovable && <div onClick={() => deleteBook(color.id)}>
-                                    <button>delete</button>
-                                </div>}
+                                {color.isRemovable && <button onClick={() => deleteColor(color.id)}>delete</button>}
                             </div >
-
                         )
                     })
                 }
@@ -172,7 +147,7 @@ const Firstform = () => {
                         <div >
                             {colorList.map((color, colorIndex) => (
                                 <div key={colorIndex}>
-                                    <div data-title={color.title} className="rectangel rectangel17 "></div>
+                                    <div data-title={color.title} className="rectangle rectangle17 "></div>
                                     <div >{color.title}</div>
                                     <div onClick={() => deleteBook(color.title)}>
                                         <button>delete</button>

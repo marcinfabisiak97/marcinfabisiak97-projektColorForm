@@ -1,56 +1,56 @@
-.rectangel{
+.rectangle{
     width: 50px;
     height: 20px;
-    background-color: attr(data-color);
+    
 }
-.rectangel1{
+.rectangle1{
     background-color:$c-color1;
 }
-.rectangel2{
+.rectangle2{
     background-color:$c-color2;
 }
-.rectangel3{
+.rectangle3{
     background-color:$c-color3;
 }
-.rectangel4{
+.rectangle4{
     background-color:$c-color4;
 }
-.rectangel5{
+.rectangle5{
     background-color:$c-color5;
 }
-.rectangel6{
+.rectangle6{
     background-color:$c-color6;
 }
-.rectangel7{
+.rectangle7{
     background-color:$c-color7;
 }
-.rectangel8{
+.rectangle8{
     background-color:$c-color8;
 }
-.rectangel9{
+.rectangle9{
     background-color:$c-color9;
 }
-.rectangel10{
+.rectangle10{
     background-color:$c-color10;
 }
-.rectangel11{
+.rectangle11{
     background-color:$c-color11;
 }
-.rectangel12{
+.rectangle12{
     background-color:$c-color12;
 }
-.rectangel13{
+.rectangle13{
     background-color:$c-color13;
 }
-.rectangel14{
+.rectangle14{
     background-color:$c-color14;
 }
-.rectangel15{
+.rectangle15{
     background-color:$c-color15;
 }
-.rectangel16{
+.rectangle16{
     background-color:$c-color15;
 }
-.rectangel17{
-    background-color: var(--accent-color);
+.rectangle17 {
+    background-color: attr(data-color);;
 }
