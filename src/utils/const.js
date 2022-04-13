@@ -1,0 +1,18 @@
+export const colorList = [
+    { id: 1, isRemovable: false, nameHex: '#000000', red: 0, green: 0, blue: 0, class: 'rectangel rectangel1' },
+    { id: 2, isRemovable: false, nameHex: '#FFFFFF', red: 255, green: 255, blue: 255, nameRGB: '255,255,255', class: 'rectangel rectangel2' },
+    { id: 3, isRemovable: false, nameHex: '#FF0000', red: 255, green: 0, blue: 0, nameRGB: '255,0,0', class: 'rectangel rectangel3' },
+    { id: 4, isRemovable: false, nameHex: '#00FF00', red: 0, green: 255, blue: 0, nameRGB: '0,255,0', class: 'rectangel rectangel4' },
+    { id: 5, isRemovable: false, nameHex: '#0000FF', red: 0, green: 0, blue: 255, nameRGB: '0,0,255', class: 'rectangel rectangel5' },
+    { id: 6, isRemovable: false, nameHex: '#FFFF00', red: 255, green: 255, blue: 0, nameRGB: '255,255,0', class: 'rectangel rectangel6' },
+    { id: 7, isRemovable: false, nameHex: '#00FFFF', red: 0, green: 255, blue: 255, nameRGB: '0,255,255', class: 'rectangel rectangel7' },
+    { id: 8, isRemovable: false, nameHex: '#FF00FF', red: 255, green: 0, blue: 255, nameRGB: '255,0,255', class: 'rectangel rectangel8' },
+    { id: 9, isRemovable: false, nameHex: '#C0C0C0', red: 192, green: 192, blue: 192, nameRGB: '192,192,192', class: 'rectangel rectangel9' },
+    { id: 10, isRemovable: false, nameHex: '#808080', red: 128, green: 128, blue: 128, nameRGB: '128,128,128', class: 'rectangel rectangel10' },
+    { id: 11, isRemovable: false, nameHex: '#800000', red: 128, green: 0, blue: 0, nameRGB: '128,0,0', class: 'rectangel rectangel11' },
+    { id: 12, isRemovable: false, nameHex: '#808000', red: 128, green: 128, blue: 0, nameRGB: '128,128,0', class: 'rectangel rectangel12' },
+    { id: 13, isRemovable: false, nameHex: '#008000', red: 0, green: 128, blue: 0, nameRGB: '0,128,0', class: 'rectangel rectangel13' },
+    { id: 14, isRemovable: false, nameHex: '#800080', red: 128, green: 0, blue: 128, nameRGB: '128,0,128', class: 'rectangel rectangel14' },
+    { id: 15, isRemovable: false, nameHex: '#008080', red: 0, green: 128, blue: 128, nameRGB: '0,128,128', class: 'rectangel rectangel15' },
+    { id: 16, isRemovable: false, nameHex: '#000080', red: 0, green: 0, blue: 128, nameRGB: '0,0,128', class: 'rectangel rectangel16' },
+]

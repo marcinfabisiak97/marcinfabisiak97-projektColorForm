@@ -1,26 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { colorList } from "../../utils/const";
+const getDatafromLS = () => {
+    const data = localStorage.getItem('colors');
+    if (data) {
+        return JSON.parse(data);
+    }
+    else {
+        return []
+    }
+}
 const Firstform = () => {
     const [formValues, setFormValues] = useState({ text: "" });
     const [formErrors, setFormErrors] = useState({});
-    const [range, setRange] = useState("default");
-    const ColorList = [
-        { nameHex: '#000000', red: 0, green: 0, blue: 0, class: 'rectangel rectangel1' },
-        { nameHex: '#FFFFFF', red: 255, green: 255, blue: 255, nameRGB: '255,255,255', class: 'rectangel rectangel2' },
-        { nameHex: '#FF0000', red: 255, green: 0, blue: 0, nameRGB: '255,0,0', class: 'rectangel rectangel3' },
-        { nameHex: '#00FF00', red: 0, green: 255, blue: 0, nameRGB: '0,255,0', class: 'rectangel rectangel4' },
-        { nameHex: '#0000FF', red: 0, green: 0, blue: 255, nameRGB: '0,0,255', class: 'rectangel rectangel5' },
-        { nameHex: '#FFFF00', red: 255, green: 255, blue: 0, nameRGB: '255,255,0', class: 'rectangel rectangel6' },
-        { nameHex: '#00FFFF', red: 0, green: 255, blue: 255, nameRGB: '0,255,255', class: 'rectangel rectangel7' },
-        { nameHex: '#FF00FF', red: 255, green: 0, blue: 255, nameRGB: '255,0,255', class: 'rectangel rectangel8' },
-        { nameHex: '#C0C0C0', red: 192, green: 192, blue: 192, nameRGB: '192,192,192', class: 'rectangel rectangel9' },
-        { nameHex: '#808080', red: 128, green: 128, blue: 128, nameRGB: '128,128,128', class: 'rectangel rectangel10' },
-        { nameHex: '#800000', red: 128, green: 0, blue: 0, nameRGB: '128,0,0', class: 'rectangel rectangel11' },
-        { nameHex: '#808000', red: 128, green: 128, blue: 0, nameRGB: '128,128,0', class: 'rectangel rectangel12' },
-        { nameHex: '#008000', red: 0, green: 128, blue: 0, nameRGB: '0,128,0', class: 'rectangel rectangel13' },
-        { nameHex: '#800080', red: 128, green: 0, blue: 128, nameRGB: '128,0,128', class: 'rectangel rectangel14' },
-        { nameHex: '#008080', red: 0, green: 128, blue: 128, nameRGB: '0,128,128', class: 'rectangel rectangel15' },
-        { nameHex: '#000080', red: 0, green: 0, blue: 128, nameRGB: '0,0,128', class: 'rectangel rectangel16' },
-    ]
+    const [opt, setOpt] = useState('list')
+    const [ColorList, setColorList] = useState(colorList)
     const list = ColorList.sort((a, b) => {
         if (b.red === a.red) {
             if (b.green === a.green) {
@@ -32,30 +25,7 @@ const Firstform = () => {
     const red50 = list.filter((el) => el.red > 127)
     const green50 = list.filter((el) => el.green > 127)
     const blue50 = list.filter((el) => el.blue > 127)
-    const [opt, setOpt] = useState(list)
-    const Change = (event) => {
-        setOpt(event.target.value)
-        console.log(opt)
 
-    }
-    const ColorListRGB = [
-        { nameRGB: '(0,0,0)', class: 'rectangel rectangel1' },
-        { nameRGB: '(255,255,255)', class: 'rectangel rectangel2' },
-        { nameRGB: '(255,0,0)', class: 'rectangel rectangel3' },
-        { nameRGB: '(0,255,0)', class: 'rectangel rectangel4' },
-        { nameRGB: '(0,0,255)', class: 'rectangel rectangel5' },
-        { nameRGB: '(255,255,0)', class: 'rectangel rectangel6' },
-        { nameRGB: '(0,255,255)', class: 'rectangel rectangel7' },
-        { nameRGB: '(255,0,255)', class: 'rectangel rectangel8' },
-        { nameRGB: '(192,192,192)', class: 'rectangel rectangel9' },
-        { nameRGB: '(128,128,128)', class: 'rectangel rectangel10' },
-        { nameRGB: '(128,0,0)', class: 'rectangel rectangel11' },
-        { nameRGB: '(128,128,0)', class: 'rectangel rectangel12' },
-        { nameRGB: '(0,128,0)', class: 'rectangel rectangel13' },
-        { nameRGB: '(128,0,128)', class: 'rectangel rectangel14' },
-        { nameRGB: '(0,128,128)', class: 'rectangel rectangel15' },
-        { nameRGB: '(0,0,128)', class: 'rectangel rectangel16' }
-    ]
     //input change handler
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -65,8 +35,32 @@ const Firstform = () => {
     //form submission handler
     const onSubmit = (e) => {
         e.preventDefault();
-        setFormErrors(validate(formValues));
+        // setFormErrors(validate(formValues));
+        if (validate(formValues)) {
+            console.log('zwalidowany', formValues.text)
+            const [red, green, blue] = formValues.text.split(',')
+            let color = {
+                id: new Date().getTime().toString(),
+                title,
+                red,
+                green,
+                blue,
+                isRemovable: true,
+            }
+            console.log([...ColorList, color], '[...ColorList, color]')
+            const newColorList = [...ColorList, color]
+            const newUserColorList = newColorList.filter((color) => color.isRemovable)
+            // setColors([...colors, color]);
+            setColorList(newColorList)
+            localStorage.setItem('colors', JSON.stringify(newUserColorList));
+            setTitle('');
+        }
     };
+    useEffect(() => {
+        setColorList([...ColorList, ...getDatafromLS()])
+
+
+    }, [])
     //form validation handler
     const validate = (values) => {
         let errors = {};
@@ -77,41 +71,34 @@ const Firstform = () => {
         } else if (!regex.test(values.text)) {
             errors.text = "Only RGB format example: 125,125,125 or HEX format exampe #001dab";
         } else if (regex.test(values.text)) {
-            let color = {
-                id: new Date().getTime().toString(),
-                title,
-            }
-            setColors([...colors, color]);
-            setTitle('');
-        } return errors;
+            return true
+        } setFormErrors(errors);
+        return false
 
     };
-    const getDatafromLS = () => {
-        const data = localStorage.getItem('colors');
-        if (data) {
-            return JSON.parse(data);
-        }
-        else {
-            return []
-        }
-    }
+
     const [colors, setColors] = useState(getDatafromLS());
     // input field states
     const [title, setTitle] = useState('');
     // delete color from LS
-    const deleteBook = (title) => {
-        const filteredBooks = colors.filter((element, index) => {
-            return element.title !== title
+    const deleteBook = (id) => {
+        const filteredBooks = ColorList.filter((element, index) => {
+            return element.id !== id
         })
-        setColors(filteredBooks);
+        const newUserColorList = filteredBooks.filter((color) => color.isRemovable)
+        setColorList(filteredBooks);
+        localStorage.setItem('colors', JSON.stringify(newUserColorList));
+
     }
 
     // saving data to local storage
+    // useEffect(() => {
+    //    localStorage.setItem('colors', JSON.stringify(colors));
+    // }, [colors])
+
+    console.log(colorList)
     useEffect(() => {
-        localStorage.setItem('colors', JSON.stringify(colors));
-    }, [colors])
-    useEffect(() => {
-        console.log(opt)
+
         const kolor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color')
         document.documentElement.style.setProperty('--accent-color', kolor)
         var elem = document.querySelectorAll('.rectangel17');
@@ -126,7 +113,7 @@ const Firstform = () => {
     return (
         <div>
             <div >
-                <form onSubmit={onSubmit} noValidate>
+                <form onSubmit={onSubmit}>
                     <div >
                         <label htmlFor="text">color</label>
                         <input
@@ -144,31 +131,47 @@ const Firstform = () => {
             </div>
             <div>
                 <p>hex</p>
-                <form>
-                    <label htmlFor="text">color</label>
-                    <select value={range} onChange={Change}>
-                        <option value='choose'>choose</option>
-                        <option value={red50}> red > 128</option>
-                        <option value={green50}> green > 128</option>
-                        <option value={blue50}> blue > 128</option>
-                    </select>
-                </form>
 
+                <label >color</label>
+                <select value={opt} onChange={(e) =>
+                    setOpt(e.target.value)
+                }>
+                    <option value='list'> all</option>
+                    <option value='red50'> red > 127</option>
+                    <option value='green50'> green > 127</option>
+                    <option value='blue50'> blue > 127</option>
+                </select>
+                długość: {ColorList.length}
                 {
-                    opt.map((color, index) => {
+                    ColorList.filter((color) => {
+                        if (opt === 'list') return true
+                        else if (opt === 'red50') {
+                            return color.red > 127
+                        }
+                        else if (opt === 'green50') {
+                            return color.green > 127
+                        }
+                        else if (opt === 'blue50') {
+                            return color.blue > 127
+                        }
+                    }).map((color, index) => {
                         return (
-                            <div key={index}>
+                            <div data-color='red' className="rectangel" key={index}>
                                 <div className={color.class}></div>
                                 HEX:{color.nameHex}, RGB({color.red}, {color.green}, {color.blue})
+                                {color.isRemovable && <div onClick={() => deleteBook(color.id)}>
+                                    <button>delete</button>
+                                </div>}
                             </div >
+
                         )
                     })
                 }
                 <div >
-                    {colors.length > 0 && <>
+                    {/* {colorList.length > 0 && <>
                         <div >
-                            {colors.map(color => (
-                                <div key={color.title}>
+                            {colorList.map((color, colorIndex) => (
+                                <div key={colorIndex}>
                                     <div data-title={color.title} className="rectangel rectangel17 "></div>
                                     <div >{color.title}</div>
                                     <div onClick={() => deleteBook(color.title)}>
@@ -178,7 +181,7 @@ const Firstform = () => {
                             ))}
                         </div>
                         <button onClick={() => setColors([])}>Remove All</button>
-                    </>}
+                    </>} */}
                 </div>
             </div>
 
