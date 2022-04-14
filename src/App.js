@@ -1,4 +1,3 @@
-
 import './App.scss';
 import Formpage from './pages/formPage'
 const App = () => {
