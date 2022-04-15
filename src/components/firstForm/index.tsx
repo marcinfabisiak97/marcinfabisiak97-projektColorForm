@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, ChangeEvent } from "react";
 import { PREDEFINED_COLORS } from "../../utils/const";
 import { RGBToSaturation } from "../../utils/helpers";
 import { hexToRgb, RGBToHex } from "../../utils/helpers";
@@ -17,10 +17,8 @@ const Firstform: FC = () => {
   const [formErrors, setFormErrors] = useState("");
   const [opt, setOpt] = useState("list");
   const [colorList, setColorList] = useState<TypeSubmit[]>(PREDEFINED_COLORS);
-  // input field states
   const [title, setTitle] = useState("");
-  //input change handler
-  const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
     setFormValues({ ...formValues, [name]: value });
     setTitle(value);
@@ -37,7 +35,6 @@ const Firstform: FC = () => {
       const parsBlue = parseInt(blue);
       let color: TypeSubmit = {
         id: new Date().getTime().toString(),
-        // title,
         isRemovable: true,
         isHex,
         red: parsRed,
@@ -52,12 +49,10 @@ const Firstform: FC = () => {
         color.green = green;
         color.blue = blue;
       }
-      // console.log([...colorList, color], "[...colorList, color]");
       const newColorList = [...colorList, color];
       const newUserColorList = newColorList.filter(
         (color) => color.isRemovable
       );
-      // setColors([...colors, color]);
       setColorList(newColorList);
       localStorage.setItem("colors", JSON.stringify(newUserColorList));
       setTitle("");
@@ -68,7 +63,7 @@ const Firstform: FC = () => {
     // eslint-disable-next-line
   }, []);
 
-  //form validation handler
+  //form validation
   const validate = (values: TypeFormVal) => {
     let errors = "";
     const regex =
@@ -98,9 +93,6 @@ const Firstform: FC = () => {
   };
 
   useEffect(() => {
-    // const kolor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color')
-    // document.documentElement.style.setProperty('--accent-color', kolor)
-
     var elem = document.querySelectorAll(
       ".list__rectangle"
     ) as NodeListOf<HTMLDivElement>;
@@ -123,18 +115,12 @@ const Firstform: FC = () => {
           </select>
           <label htmlFor="text">color</label>
           <Secondform title={title} handleChange={handleChange} />
-          {/* <input
-            type="text"
-            name="text"
-            onChange={handleChange}
-            value={title}
-          /> */}
           <button type="submit">add color</button>
           {formErrors && <div className="error">{formErrors}</div>}
         </form>
       </div>
       <div className="wrapper__form">
-        List length: {colorList.length}
+        <p>List length: {colorList.length}</p>
         {colorList
           .filter((color) => {
             if (opt === "list") return true;

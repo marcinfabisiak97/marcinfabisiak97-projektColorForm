@@ -1,12 +1,10 @@
 import React, { ChangeEvent } from "react";
-
 type SecondformProps = {
   title: string;
-  handleChange: (e: any) => void;
+  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
-
 class Secondform extends React.Component<SecondformProps, {}> {
-  handleChange = (e: ChangeEvent<HTMLInputElement | HTMLFormElement>) => {
+  handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     this.props.handleChange(e);
   };
   render() {
