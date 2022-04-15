@@ -1,4 +1,4 @@
-import Firstform from "../../components/firstForm";
+import Firstform from "../../components/functionComponent";
 const Formpage = () => {
   return (
     <div>

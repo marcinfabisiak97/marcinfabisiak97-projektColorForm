@@ -14,6 +14,7 @@ class Secondform extends React.Component<SecondformProps, {}> {
         name="text"
         onChange={this.handleChange}
         value={this.props.title}
+        className="inputVal"
       />
     );
   }

@@ -3,7 +3,7 @@ import { PREDEFINED_COLORS } from "../../utils/const";
 import { RGBToSaturation } from "../../utils/helpers";
 import { hexToRgb, RGBToHex } from "../../utils/helpers";
 import { TypeSubmit, TypeFormVal } from "../../types";
-import Secondform from "../secondForm";
+import Secondform from "../classComponent";
 const getDatafromLS = () => {
   const data = localStorage.getItem("colors");
   if (data) {
@@ -67,12 +67,12 @@ const Firstform: FC = () => {
   const validate = (values: TypeFormVal) => {
     let errors = "";
     const regex =
-      /^#+([0-9A-F]{6}|[0-9A-F]{3})$|^(rgb)?\(?([01]?\d\d?|2[0-4]\d|25[0-5])(\W+)([01]?\d\d?|2[0-4]\d|25[0-5])\W+(([01]?\d\d?|2[0-4]\d|25[0-5])\)?)$/;
+      /^#+([0-9A-F]{6}|[0-9A-F]{3})$|^(\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})$/;
     if (!values.text) {
       errors = "Cannot be blank";
     } else if (!regex.test(values.text)) {
       errors =
-        "Only RGB or HEX format example: 125,125,125  format example: #001DAB";
+        "Only RGB or HEX format example: 125,125,125 format example: #001DAB";
     } else if (regex.test(values.text)) {
       return true;
     }
@@ -105,7 +105,7 @@ const Firstform: FC = () => {
     <div className="wrapper">
       <div className="wrapper__form">
         <form className="form" onSubmit={onSubmit}>
-          <label>color</label>
+          <label>Select color range</label>
           <select value={opt} onChange={(e) => setOpt(e.target.value)}>
             <option value="list"> all</option>
             <option value="red50"> red &gt; 127</option>
@@ -113,7 +113,7 @@ const Firstform: FC = () => {
             <option value="blue50"> blue &gt; 127</option>
             <option value="Sat50"> Saturation &gt; 50%</option>
           </select>
-          <label htmlFor="text">color</label>
+          <label htmlFor="text">Write color</label>
           <Secondform title={title} handleChange={handleChange} />
           <button type="submit">add color</button>
           {formErrors && <div className="error">{formErrors}</div>}
