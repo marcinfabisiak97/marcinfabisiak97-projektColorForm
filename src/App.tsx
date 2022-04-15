@@ -1,11 +1,11 @@
-import './App.scss';
-import Formpage from './pages/formPage'
+import "./App.scss";
+import Formpage from "./pages/formPage";
 const App = () => {
   return (
-    <div >
+    <div>
       <Formpage />
     </div>
   );
-}
+};
 
 export default App;

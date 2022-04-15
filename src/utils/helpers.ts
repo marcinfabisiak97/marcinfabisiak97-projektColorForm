@@ -1,4 +1,4 @@
-export const RGBToHSL = (r, g, b) => {
+export const RGBToHSL = (r:number, g:number, b:number) => {
     r /= 255;
     g /= 255;
     b /= 255;
@@ -17,24 +17,25 @@ export const RGBToHSL = (r, g, b) => {
         (100 * (2 * l - s)) / 2,
     ];
 };
-export const RGBToSaturation = (r, g, b) => {
+export const RGBToSaturation = (r:number, g:number, b:number) => {
     return RGBToHSL(r, g, b)[1]
 };
 
 
-export const RGBToHex = (r, g, b) => {
-    const componentToHex = (c) => {
+export const RGBToHex = (r:number, g:number, b:number) => {
+    
+    const componentToHex = (c:number) => {
         let hex = c.toString(16);
-        return hex.length == 1 ? "0" + hex : hex;
+        return hex.length === 1 ? "0" + hex : hex;
     }
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-export const hexToRgb = (hex) => {
+export const hexToRgb = (hex:string) => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
         red: parseInt(result[1], 16),
         green: parseInt(result[2], 16),
         blue: parseInt(result[3], 16)
-    } : null;
+    } : {red:0,green:0,blue:0};
 }
