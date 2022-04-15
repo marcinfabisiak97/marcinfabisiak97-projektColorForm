@@ -39,7 +39,6 @@ const Firstform = () => {
             };
             if (isHex) {
                 color.nameHex = formValues.text;
-                console.log(hexToRgb(color.nameHex))
                 const { red, green, blue } = hexToRgb(formValues.text)
                 color.red = red;
                 color.green = green;
@@ -65,16 +64,17 @@ const Firstform = () => {
     useEffect(() => {
         setColorList([...colorList, ...getDatafromLS()]);
     }, []);
+
     //form validation handler
     const validate = (values) => {
         let errors = {};
         const regex =
-            /^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$|^(rgb)?\(?([01]?\d\d?|2[0-4]\d|25[0-5])(\W+)([01]?\d\d?|2[0-4]\d|25[0-5])\W+(([01]?\d\d?|2[0-4]\d|25[0-5])\)?)$/i;
+            /^#+([0-9A-F]{6}|[0-9A-F]{3})$|^(rgb)?\(?([01]?\d\d?|2[0-4]\d|25[0-5])(\W+)([01]?\d\d?|2[0-4]\d|25[0-5])\W+(([01]?\d\d?|2[0-4]\d|25[0-5])\)?)$/;
         if (!values.text) {
             errors.text = "Cannot be blank";
         } else if (!regex.test(values.text)) {
             errors.text =
-                "Only RGB format example: 125,125,125 or HEX format exampe #001dab";
+                "Only RGB format example: 125,125,125 or HEX format exampe #001DAB";
         } else if (regex.test(values.text)) {
             return true;
         }
@@ -109,9 +109,7 @@ const Firstform = () => {
             elem[i].style.backgroundColor = elem[i].getAttribute("data-color");
         }
     }, [colorList, colorList.length]);
-    const putColor = (kolor) => {
-        document.documentElement.style.setProperty("--accent-color", kolor);
-    };
+
     return (
         <div>
             <div>
