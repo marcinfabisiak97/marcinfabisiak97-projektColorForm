@@ -72,7 +72,7 @@ const Firstform: FC = () => {
       errors = "Cannot be blank";
     } else if (!regex.test(values.text)) {
       errors =
-        "Only RGB or HEX format example: 125,125,125 format example: #001DAB";
+        "Only RGB(format example: 125,125,125) or HEX(format example: #001DAB)";
     } else if (regex.test(values.text)) {
       return true;
     }
@@ -161,8 +161,10 @@ const Firstform: FC = () => {
                   className="list__rectangle"
                 ></div>
                 <div className="list__rectangleDescr">
-                  HEX:{color.nameHex}, RGB({color.red}, {color.green},{" "}
-                  {color.blue})
+                  <p>HEX:{color.nameHex}</p>
+                  <p>
+                    RGB({color.red}, {color.green}, {color.blue})
+                  </p>
                 </div>
                 {color.isRemovable && (
                   <button onClick={() => deleteColor(color.id)}>delete</button>
