@@ -26,7 +26,6 @@ const Firstform: FC = () => {
   //form submission handler
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // setFormErrors(validate(formValues));
     if (validate(formValues)) {
       const [red, green, blue] = formValues.text.split(",");
       const isHex = formValues.text.includes("#");
